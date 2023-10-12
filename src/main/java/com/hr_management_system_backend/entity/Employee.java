@@ -59,6 +59,12 @@ public class Employee implements UserDetails {
     @Enumerated(EnumType.STRING)
     private EmployeeType type;
 
+    @Column(nullable = true)
+    private String image;
+
+    @Column(nullable = true)
+    private int active_status;
+
 
 
 
