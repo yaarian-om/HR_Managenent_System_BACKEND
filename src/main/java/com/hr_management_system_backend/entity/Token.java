@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@Table(name = "Login")
-public class Login {
+@Table(name = "Token")
+public class Token {
 
 
 
@@ -25,4 +25,9 @@ public class Login {
 
     @Column(nullable = true)
     private LocalDateTime expiredAt;
+
+//    @ManyToOne
+//    private Employee employee;
+
+
 }

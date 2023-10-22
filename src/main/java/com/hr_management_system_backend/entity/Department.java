@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -18,16 +20,20 @@ public class Department {
     @Column(nullable = false, unique = true)
     private String name;
 
-//    @Column(nullable = true,unique = true)
-    @ManyToOne
-    @JoinColumn(name = "department_head_id", nullable = true)
-    private Employee employee;
+    @OneToOne
+    private Employee department_head;
+
+    @OneToMany(mappedBy = "department")
+    private List<Employee> employeeList;
 
     @Column(nullable = true)
     private String location;
 
     @Column(nullable = true)
     private String description;
+
+    @OneToMany(mappedBy = "department")
+    private List<JobVacancy> jobVacancyList;
 
 
 

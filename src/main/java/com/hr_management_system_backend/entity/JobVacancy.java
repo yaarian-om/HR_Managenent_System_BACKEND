@@ -23,7 +23,7 @@ public class JobVacancy {
     private String position;
 
     @ManyToOne
-    @JoinColumn(name = "department_id", nullable = false)
+//    @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
     @Column(nullable = false)

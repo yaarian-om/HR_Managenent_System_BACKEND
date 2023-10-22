@@ -14,10 +14,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
+
+
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
 //        Write the Backend Endpoints Where the Security Tokens won't be needed
-        return (web) -> web.ignoring().requestMatchers("/", "/images/**");
+        return (web) -> web.ignoring().requestMatchers("/", "/images/**", "/hr/login","/hr/alive");
     }
 
 

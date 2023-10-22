@@ -1,9 +1,13 @@
 package com.hr_management_system_backend.authentication;
 
 
+import com.hr_management_system_backend.entity.Employee;
+import com.hr_management_system_backend.repository.ITokenRepo;
+import com.hr_management_system_backend.service.TokenService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +20,8 @@ import java.util.function.Function;
 public class JsonWebToken {
 
 
+    @Autowired
+    TokenService tokenService;
 
     private String secret = "7#xT9$Q2@rP6&yW*5uE!pA8%kL1z#F4vG3";
 
@@ -36,7 +42,13 @@ public class JsonWebToken {
     }
 
     private Boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
+
+        var current_token = tokenService.Get_Token_Details_By_Token(token);
+        if(current_token.getExpiredAt() == null){
+            return extractExpiration(token).before(new Date());
+        }else{
+            return false;
+        }
     }
 
 
@@ -44,9 +56,14 @@ public class JsonWebToken {
     //    Generate Token
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, username);
+        String token = createToken(claims, username);
+
+        boolean decision = tokenService.Add_Token(token);
+
+        return decision ? token : null;
     }
 
+    //    Create Token
     private String createToken(Map<String, Object> claims, String subject) {
 
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
@@ -54,11 +71,12 @@ public class JsonWebToken {
                 .signWith(SignatureAlgorithm.HS256, secret).compact();
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
+    //    Validate Token
+    public Boolean validateToken(String token, Employee userDetails) {
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (username.equals(userDetails.getEmail()) && !isTokenExpired(token));
     }
 
-//    Validate Token
+
 
 }

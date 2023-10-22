@@ -1,0 +1,3 @@
+HR Management system => noreply.hr.management.service@gmail.com
+pass : 0tempPass@
+Database same mail

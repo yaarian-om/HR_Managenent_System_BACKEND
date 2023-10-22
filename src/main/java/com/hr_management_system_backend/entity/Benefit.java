@@ -19,7 +19,7 @@ public class Benefit {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id",nullable = false)
+//    @JoinColumn(name = "employee_id",nullable = false)
     private Employee employee;
 
     @Column(nullable = false)

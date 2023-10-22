@@ -4,10 +4,12 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 
 
 @Entity
@@ -42,16 +44,17 @@ public class Employee implements UserDetails {
     private String phone;
 
     @ManyToOne
-    @JoinColumn(name = "department_id", nullable = false)
 //    Foreign Key (id) with Department Table
     private Department department;
 
+    @OneToOne(mappedBy = "department_head")
+    private Department department_head;
+
 //    Foreign Key (id) of this current Table
     @ManyToOne
-    @JoinColumn(name="manager_id")
     private Employee manager;
 
-    enum EmployeeType{
+    public enum EmployeeType{
         HR,
         Employee
     }
@@ -65,7 +68,23 @@ public class Employee implements UserDetails {
     @Column(nullable = true)
     private int active_status;
 
+    @OneToMany(mappedBy = "employee")
+    private List<Benefit> benefitList;
 
+    @OneToMany(mappedBy = "employee")
+    private List<Attendance> attendanceList;
+
+    @OneToMany(mappedBy = "employee")
+    private List<LeaveRequest> leaveRequestList;
+
+//    @OneToMany(mappedBy = "employee")
+//    private List<Login> loginList;
+
+    @OneToOne(mappedBy = "employee")
+    private Payroll payroll;
+
+    @OneToMany(mappedBy = "employee")
+    private List<PerformanceReview> performanceReviewList;
 
 
 
@@ -78,22 +97,22 @@ public class Employee implements UserDetails {
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of(new SimpleGrantedAuthority(type.name()));
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return email;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
