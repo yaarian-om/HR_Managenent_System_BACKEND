@@ -25,6 +25,7 @@ public class JwtHelper {
     private String secret = "afafasfafafasfasfasfafacasdasfasxASFACASDFACASDFASFASFDAFASFASDAADSCSDFADCVSGCFVADXCcadwavfsfarvf";
 
     public String getUsernameFromToken(String token) {
+        System.out.println("Get Email from Token in JwtHelper line 28 : "+extractClaim(token, Claims::getSubject));
         return extractClaim(token, Claims::getSubject);
     }
 
