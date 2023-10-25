@@ -2,30 +2,29 @@ package com.hr_management_system_backend.authentication;
 
 
 import com.hr_management_system_backend.entity.Employee;
-import com.hr_management_system_backend.repository.ITokenRepo;
 import com.hr_management_system_backend.service.TokenService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-@Service
-public class JsonWebToken {
+@Component
+public class JwtHelper {
 
 
     @Autowired
     TokenService tokenService;
 
-    private String secret = "7#xT9$Q2@rP6&yW*5uE!pA8%kL1z#F4vG3";
+//    private String secret = "7#xT9$Q2@rP6&yW*5uE!pA8%kL1z#F4vG3";
+    private String secret = "afafasfafafasfasfasfafacasdasfasxASFACASDFACASDFASFASFDAFASFASDAADSCSDFADCVSGCFVADXCcadwavfsfarvf";
 
-    public String extractUsername(String token) {
+    public String getUsernameFromToken(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -73,7 +72,7 @@ public class JsonWebToken {
 
     //    Validate Token
     public Boolean validateToken(String token, Employee userDetails) {
-        final String username = extractUsername(token);
+        final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getEmail()) && !isTokenExpired(token));
     }
 

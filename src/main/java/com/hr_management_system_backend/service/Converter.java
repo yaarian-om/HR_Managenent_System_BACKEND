@@ -48,8 +48,8 @@ public class Converter {
         emp.setEmail(employee.getEmail());
         emp.setPassword(employee.getPassword());
         emp.setPhone(employee.getPhone());
-        emp.setDepartment(departmentRepo.getReferenceById(employee.getDepartment_id()));
-        emp.setManager(employeeRepo.getReferenceById(employee.getManager_id()));
+        emp.setDepartment(departmentRepo.getDepartmentById(employee.getDepartment_id()));
+        emp.setManager(employeeRepo.getEmployeeById(employee.getManager_id()));
         employee.setType(("HR".equals(employee.getType())) ? String.valueOf(Employee.EmployeeType.HR) : String.valueOf(Employee.EmployeeType.Employee));
         emp.setImage(employee.getImage());
         emp.setActive_status(employee.getActive_status());

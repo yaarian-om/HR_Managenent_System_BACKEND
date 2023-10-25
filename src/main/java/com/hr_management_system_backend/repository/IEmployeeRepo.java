@@ -11,6 +11,8 @@ public interface IEmployeeRepo extends JpaRepository<Employee, Long> {
     Employee findByEmailAndPassword(String email, String password);
     Employee findByEmail(String email);
 
+    Employee getEmployeeById(Long id);
+
 //endregion Authorization Code
 
 }

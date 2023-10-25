@@ -1,24 +1,21 @@
 package com.hr_management_system_backend.controller;
 
 
-import com.hr_management_system_backend.authentication.JsonWebToken;
+import com.hr_management_system_backend.authentication.JwtHelper;
 import com.hr_management_system_backend.dto.EmployeeDTO;
 import com.hr_management_system_backend.dto.login.LoginDTO;
 import com.hr_management_system_backend.service.EmployeeService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/hr")
 public class HRController {
 
-    private final JsonWebToken jwt;
+    private final JwtHelper jwt;
     private final EmployeeService employeeService;
 
-    public HRController(JsonWebToken jwt, EmployeeService employeeService) {
+    public HRController(JwtHelper jwt, EmployeeService employeeService) {
         this.jwt = jwt;
         this.employeeService = employeeService;
     }
