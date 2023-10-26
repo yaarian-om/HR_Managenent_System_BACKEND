@@ -71,17 +71,26 @@ public class SecurityConfig {
         return NoOpPasswordEncoder.getInstance();
     }
 
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        // configuration
+//        http.csrf(csrf->csrf.disable())
+//                .cors(cors->cors.disable())
+//                .authorizeHttpRequests(auth->auth.requestMatchers("/home/**").authenticated()
+//                        .requestMatchers("/", "/images/**", "/hr/login","/hr/alive", "/hr/abcd").permitAll().anyRequest()
+//                        .authenticated())
+//                .exceptionHandling(ex->ex.authenticationEntryPoint(point))
+//                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+//        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+//        return http.build();
+//    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // configuration
         http.csrf(csrf->csrf.disable())
                 .cors(cors->cors.disable())
-                .authorizeHttpRequests(auth->auth.requestMatchers("/home/**").authenticated()
-                        .requestMatchers("/", "/images/**", "/hr/login","/hr/alive").permitAll().anyRequest()
-                        .authenticated())
-                .exceptionHandling(ex->ex.authenticationEntryPoint(point))
-                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+                .authorizeHttpRequests(auth->auth.anyRequest().permitAll());
         return http.build();
     }
 

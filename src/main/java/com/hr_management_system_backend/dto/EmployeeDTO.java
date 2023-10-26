@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class EmployeeDTO {
     private Long id;
     private String name;
-    private LocalDate date_of_birth;
+    private String date_of_birth;
     private String address;
     private String email;
     private String password;

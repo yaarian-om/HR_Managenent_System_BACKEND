@@ -31,12 +31,12 @@ public class EmployeeService {
     }
 
     public boolean Create_Employee(EmployeeDTO employee){
-        var decision = employeeRepo.save(Converter.Convert(employee));
+        var decision = employeeRepo.save(converter.Convert(employee));
         return true;
     }
 
     public EmployeeDTO Get_Employee_By_Email(String email){
-        return Converter.Convert(employeeRepo.findByEmail(email));
+        return converter.Convert(employeeRepo.findByEmail(email));
     }
 
     public Employee Get_Employee_By_Email_for_Authentication(String email){

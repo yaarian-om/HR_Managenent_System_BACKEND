@@ -30,7 +30,7 @@ public class Employee implements UserDetails {
      * The input format must be "YYYY-MM-DD" for the < input type="date"> element to work correctly
      * */
     @Column(nullable = true)
-    private LocalDate date_of_birth;
+    private String date_of_birth;
 
     @Column(nullable = true)
     private String address;

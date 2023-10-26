@@ -13,18 +13,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class Converter {
 
-    private static IEmployeeRepo employeeRepo;
+    private final IEmployeeRepo employeeRepo;
 
-    private static IDepartmentRepo departmentRepo;
+    private final IDepartmentRepo departmentRepo;
 
-//    public Converter(IEmployeeRepo employeeRepo, IDepartmentRepo departmentRepo) {
-//        this.employeeRepo = employeeRepo;
-//        this.departmentRepo = departmentRepo;
-//    }
+    public Converter(IEmployeeRepo employeeRepo, IDepartmentRepo departmentRepo) {
+        this.employeeRepo = employeeRepo;
+        this.departmentRepo = departmentRepo;
+    }
 
 
     //region Employee Converter
-    public static EmployeeDTO Convert(Employee employee){
+    public EmployeeDTO Convert(Employee employee){
 
         System.out.println("Employee Caught = "+employee);
         System.out.println("Employee ID Caught = "+employee.getId());
@@ -46,7 +46,7 @@ public class Converter {
         return emp;
     }
 
-    public static Employee Convert(EmployeeDTO employee){
+    public Employee Convert(EmployeeDTO employee){
 
         System.out.println("Caught EMP at the starting of Converter "+employee);
         Employee emp = new Employee();

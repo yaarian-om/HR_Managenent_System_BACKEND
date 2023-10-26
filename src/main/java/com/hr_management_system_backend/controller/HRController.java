@@ -4,6 +4,7 @@ package com.hr_management_system_backend.controller;
 import com.hr_management_system_backend.authentication.JwtHelper;
 import com.hr_management_system_backend.dto.EmployeeDTO;
 import com.hr_management_system_backend.dto.login.LoginDTO;
+import com.hr_management_system_backend.entity.Employee;
 import com.hr_management_system_backend.service.EmployeeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -68,6 +69,12 @@ public class HRController {
     @GetMapping("/auth_check")
     public ResponseEntity<Object> Authentication_Check(){
         return ResponseEntity.ok().body("{ \"message\" : \"Working\" }");
+    }
+
+    @PostMapping("/abcd")
+    public String createEmployee(@RequestBody EmployeeDTO employee){
+        System.out.println("Emp = "+employee);
+        return "Employee Caught";
     }
 
 
