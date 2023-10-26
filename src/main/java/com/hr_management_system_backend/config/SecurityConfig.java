@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -71,28 +72,28 @@ public class SecurityConfig {
         return NoOpPasswordEncoder.getInstance();
     }
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        // configuration
-//        http.csrf(csrf->csrf.disable())
-//                .cors(cors->cors.disable())
-//                .authorizeHttpRequests(auth->auth.requestMatchers("/home/**").authenticated()
-//                        .requestMatchers("/", "/images/**", "/hr/login","/hr/alive", "/hr/abcd").permitAll().anyRequest()
-//                        .authenticated())
-//                .exceptionHandling(ex->ex.authenticationEntryPoint(point))
-//                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-//        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
-//        return http.build();
-//    }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // configuration
         http.csrf(csrf->csrf.disable())
                 .cors(cors->cors.disable())
-                .authorizeHttpRequests(auth->auth.anyRequest().permitAll());
+                .authorizeHttpRequests(auth->auth.requestMatchers("/**").authenticated()
+                        .requestMatchers("/", "/images/**", "/hr/login","/hr/alive", "/hr/abcd").permitAll().anyRequest()
+                        .authenticated())
+                .exceptionHandling(ex->ex.authenticationEntryPoint(point))
+                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
+
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        // configuration
+//        http.csrf(AbstractHttpConfigurer::disable)
+//                .cors(AbstractHttpConfigurer::disable)
+//                .authorizeHttpRequests(auth->auth.anyRequest().permitAll());
+//        return http.build();
+//    }
 
 
 
