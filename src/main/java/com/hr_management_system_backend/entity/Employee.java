@@ -1,5 +1,6 @@
 package com.hr_management_system_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -51,6 +52,7 @@ public class Employee implements UserDetails {
     private Department department_head;
 
 //    Foreign Key (id) of this current Table
+    @JsonIgnore
     @ManyToOne
     private Employee manager;
 

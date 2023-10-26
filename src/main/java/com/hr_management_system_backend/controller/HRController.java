@@ -56,7 +56,7 @@ public class HRController {
 
 
     @PostMapping("/create/employee")
-    public ResponseEntity<Object> Create_Employee(EmployeeDTO employee){
+    public ResponseEntity<Object> Create_Employee(@RequestBody EmployeeDTO employee){
         boolean decision = employeeService.Create_Employee(employee);
         if (decision){
             return ResponseEntity.ok().body("{ \"message\" : \"Created\" }");
@@ -65,6 +65,10 @@ public class HRController {
         }
     }
 
+    @GetMapping("/auth_check")
+    public ResponseEntity<Object> Authentication_Check(){
+        return ResponseEntity.ok().body("{ \"message\" : \"Working\" }");
+    }
 
 
 

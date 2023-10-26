@@ -28,6 +28,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private EmployeeService employeeService;
 
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException, IOException {
         //Authorization
@@ -40,6 +41,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             //looking good
             token = requestHeader.substring(7);
             try {
+                System.out.println("Token Caught By Authentication Filter line 43 : "+token);
                 username = this.jwtHelper.getUsernameFromToken(token);
             } catch (IllegalArgumentException e) {
                 logger.info("Illegal Argument while fetching the username !!");
@@ -58,7 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             //fetch user detail from username
-            Employee userDetails = Converter.Convert(this.employeeService.Get_Employee_By_Email(username));
+            Employee userDetails = this.employeeService.Get_Employee_By_Email_for_Authentication(username);
             Boolean validateToken = this.jwtHelper.validateToken(token, userDetails);
             if (validateToken) {
                 //set the authentication

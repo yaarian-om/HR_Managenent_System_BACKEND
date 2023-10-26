@@ -12,8 +12,11 @@ public class EmployeeService {
 
     private final IEmployeeRepo employeeRepo;
 
-    public EmployeeService(IEmployeeRepo employeeRepo) {
+    private final Converter converter;
+
+    public EmployeeService(IEmployeeRepo employeeRepo, Converter converter) {
         this.employeeRepo = employeeRepo;
+        this.converter = converter;
     }
 
     public String Validate_Login(LoginDTO login){
@@ -29,11 +32,15 @@ public class EmployeeService {
 
     public boolean Create_Employee(EmployeeDTO employee){
         var decision = employeeRepo.save(Converter.Convert(employee));
-        return false;
+        return true;
     }
 
     public EmployeeDTO Get_Employee_By_Email(String email){
         return Converter.Convert(employeeRepo.findByEmail(email));
+    }
+
+    public Employee Get_Employee_By_Email_for_Authentication(String email){
+        return employeeRepo.findByEmail(email);
     }
 
 
