@@ -6,6 +6,8 @@ import com.hr_management_system_backend.service.EmployeeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 @RestController
 public class UserCommonController {
 
@@ -27,7 +29,8 @@ public class UserCommonController {
 
             System.out.println("Password = "+login.getPassword());
             type = employeeService.Validate_Login(login);
-            if(type != "" && type != null){
+//            type!="" && type !=nul
+            if(!Objects.equals(type, "") && type != null){
                 token = jwt.generateToken(login.getEmail());
                 System.out.println("Generated Token = "+token);
                 if(token != null){
@@ -53,12 +56,13 @@ public class UserCommonController {
 //        Use SMTP to send a mail to the provided email address
 //        Store the Pin in a Pin-Table having one-to-one relationship with Employee
 //        Generate a New Token and Send it as a response to the User Frontend
+//        Now generate a JWT token and send it as a response
 
         return null;
     }
 
     @PostMapping("forget_password/verify_pin")
-    public ResponseEntity<Object> Verify_Pin(@RequestBody String pin){
+    public ResponseEntity<Object> Verify_Pin(@RequestHeader("Authorization") String header, @RequestBody String pin){
 
 //
 

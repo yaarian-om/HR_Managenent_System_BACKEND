@@ -10,6 +10,10 @@ import com.hr_management_system_backend.repository.IEmployeeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class Converter {
 
@@ -73,6 +77,27 @@ public class Converter {
 
         return emp;
     }
+
+    public List<EmployeeDTO> Convert(List<Employee> employees){
+//        List<EmployeeDTO> employee_list =  employees.stream()
+//                .map(this::Convert)
+//                .collect(Collectors.toList());
+
+        List<EmployeeDTO> employee_list = new ArrayList<>();
+
+        for (Employee employee : employees) {
+            EmployeeDTO employeeDTO = Convert(employee);
+            employee_list.add(employeeDTO);
+        }
+
+
+        return employee_list;
+    }
+
+
+
+
+
 //endregion Employee Converter
 
 //region Token Converter
