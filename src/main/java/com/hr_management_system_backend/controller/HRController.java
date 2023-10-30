@@ -2,9 +2,8 @@ package com.hr_management_system_backend.controller;
 
 
 import com.hr_management_system_backend.authentication.JwtHelper;
+import com.hr_management_system_backend.dto.AttendanceDTO;
 import com.hr_management_system_backend.dto.EmployeeDTO;
-import com.hr_management_system_backend.dto.login.LoginDTO;
-import com.hr_management_system_backend.entity.Employee;
 import com.hr_management_system_backend.service.EmployeeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +12,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/hr")
 public class HRController {
 
-    private final JwtHelper jwt;
     private final EmployeeService employeeService;
 
-    public HRController(JwtHelper jwt, EmployeeService employeeService) {
-        this.jwt = jwt;
+
+    public HRController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
@@ -27,34 +25,23 @@ public class HRController {
     }
 
 
-    @PostMapping("/login")
-    public ResponseEntity<Object> Login_Validation(@RequestBody LoginDTO login){
-        String type = "";
-        var token = "";
-        try{
-            System.out.println("Email = "+login.getEmail());
-
-            System.out.println("Password = "+login.getPassword());
-            type = employeeService.Validate_Login(login);
-            if(type != "" && type != null){
-                token = jwt.generateToken(login.getEmail());
-                System.out.println("Generated Token = "+token);
-                if(token != null){
-                    return ResponseEntity.ok().body("{\"token\": \"" + token + "\", \"type\": \"" + type + "\"}");
-                }else{
-                    return ResponseEntity.internalServerError().body("{\"error\": \"Problem in Generating Token\"}");
-                }
-            }else{
-                return ResponseEntity.internalServerError().body("{\"error\": \"Email and Password did not match\"}");
-            }
-        }catch (Exception ex){
-            System.out.println("Error found in Login_Validation = "+ex.getMessage());
-            return ResponseEntity.internalServerError().body("{\"error\": \"Problem in Generating Token or Credential Validation\"}");
-        }
-
+//region Employee
+    @GetMapping("/get_all_employee_list")
+    public  ResponseEntity<Object> Get_All_Employees(){
+//        Show Employees who has active status 1
+        return null;
     }
 
+    @GetMapping("/get_single_employee/{id}")
+    public ResponseEntity<Object> Get_Employee_by_Id(@PathVariable Long id){
+        return null;
+    }
 
+    @GetMapping("/get_ex_employee_list")
+    public ResponseEntity<Object> Get_All_Ex_Employees(){
+//        Show Employees who has active status 0
+        return null;
+    }
 
     @PostMapping("/create/employee")
     public ResponseEntity<Object> Create_Employee(@RequestBody EmployeeDTO employee){
@@ -66,16 +53,81 @@ public class HRController {
         }
     }
 
+    @PutMapping("/update/employee")
+    public ResponseEntity<Object> Update_Employee_Info(@RequestBody EmployeeDTO employee){
+        return null;
+    }
+
+    @DeleteMapping("/delete/employee/{id}")
+    public ResponseEntity<Object> Delete_Employee(@PathVariable Long id){
+//        Change Active Status to 0;
+        return null;
+    }
+
+
+//endregion Employee
+
+
+//region Attendance
+
+    @GetMapping("/get_all_attendances")
+    public ResponseEntity<Object> Get_All_Attendances(){
+        return null;
+    }
+
+    @GetMapping("/get_single_attendance/{id}")
+    public ResponseEntity<Object> Get_Attendance_by_Id(@PathVariable Long id){
+        return null;
+    }
+
+    @PostMapping("/create_attendance")
+    public ResponseEntity<Object> Create_Attendance(@RequestBody AttendanceDTO attendance){
+        return null;
+    }
+
+
+
+// endregion Attendance
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @GetMapping("/auth_check")
     public ResponseEntity<Object> Authentication_Check(){
         return ResponseEntity.ok().body("{ \"message\" : \"Working\" }");
     }
 
     @PostMapping("/abcd")
-    public String createEmployee(@RequestBody EmployeeDTO employee){
+    public String createEmployee(@RequestHeader("Authorization") String header, @RequestBody EmployeeDTO employee){
+
+        System.out.println("Header = "+header);
         System.out.println("Emp = "+employee);
         return "Employee Caught";
     }
+
+
+
+
 
 
 

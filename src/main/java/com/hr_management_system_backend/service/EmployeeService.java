@@ -31,6 +31,7 @@ public class EmployeeService {
     }
 
     public boolean Create_Employee(EmployeeDTO employee){
+        employee.setActive_status(1);
         var decision = employeeRepo.save(converter.Convert(employee));
         return true;
     }
