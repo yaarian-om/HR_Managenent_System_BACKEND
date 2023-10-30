@@ -3,6 +3,7 @@ package com.hr_management_system_backend.service;
 import com.hr_management_system_backend.dto.EmployeeDTO;
 import com.hr_management_system_backend.dto.login.LoginDTO;
 import com.hr_management_system_backend.entity.Employee;
+import com.hr_management_system_backend.mapper.Converter;
 import com.hr_management_system_backend.repository.IEmployeeRepo;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,7 @@ public class EmployeeService {
 
     public boolean Create_Employee(EmployeeDTO employee){
         employee.setActive_status(1);
-        var decision = employeeRepo.save(converter.Convert(employee));
+        var decision = employeeRepo.save(Converter.Convert(employee,Employee.class));
         return true;
     }
 

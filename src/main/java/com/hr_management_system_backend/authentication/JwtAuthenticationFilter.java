@@ -1,7 +1,6 @@
 package com.hr_management_system_backend.authentication;
 
 import com.hr_management_system_backend.entity.Employee;
-import com.hr_management_system_backend.service.Converter;
 import com.hr_management_system_backend.service.EmployeeService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;

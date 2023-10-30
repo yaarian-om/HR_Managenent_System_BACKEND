@@ -1,5 +1,6 @@
-package com.hr_management_system_backend.service;
+package com.hr_management_system_backend.mapper;
 
+import com.hr_management_system_backend.dto.DepartmentDTO;
 import com.hr_management_system_backend.dto.EmployeeDTO;
 import com.hr_management_system_backend.dto.TokenDTO;
 import com.hr_management_system_backend.entity.Department;
@@ -7,12 +8,11 @@ import com.hr_management_system_backend.entity.Employee;
 import com.hr_management_system_backend.entity.Token;
 import com.hr_management_system_backend.repository.IDepartmentRepo;
 import com.hr_management_system_backend.repository.IEmployeeRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class Converter {
@@ -21,9 +21,12 @@ public class Converter {
 
     private final IDepartmentRepo departmentRepo;
 
-    public Converter(IEmployeeRepo employeeRepo, IDepartmentRepo departmentRepo) {
+    private final ModelMapper modelMapper;
+
+    public Converter(IEmployeeRepo employeeRepo, IDepartmentRepo departmentRepo, ModelMapper modelMapper) {
         this.employeeRepo = employeeRepo;
         this.departmentRepo = departmentRepo;
+        this.modelMapper = modelMapper;
     }
 
 
@@ -78,7 +81,7 @@ public class Converter {
         return emp;
     }
 
-    public List<EmployeeDTO> Convert(List<Employee> employees){
+    public List<EmployeeDTO> Convert(List<Employee>  employees){
 //        List<EmployeeDTO> employee_list =  employees.stream()
 //                .map(this::Convert)
 //                .collect(Collectors.toList());
@@ -86,7 +89,7 @@ public class Converter {
         List<EmployeeDTO> employee_list = new ArrayList<>();
 
         for (Employee employee : employees) {
-            EmployeeDTO employeeDTO = Convert(employee);
+            EmployeeDTO employeeDTO = Convert(employee,EmployeeDTO.class);
             employee_list.add(employeeDTO);
         }
 
@@ -95,7 +98,49 @@ public class Converter {
     }
 
 
+// region Department
+    public Department Convert(DepartmentDTO department){
+        Department dept = new Department();
+        dept.setId(department.getId());
+        dept.setName(department.getName());
+        Employee tempDepartmentHead = employeeRepo.findEmployeeById(department.getDepartment_head_id());
+        System.out.println("Collected Department Head info = "+tempDepartmentHead);
+        dept.setDepartment_head(tempDepartmentHead);
+        dept.setLocation(department.getLocation());
+        dept.setDescription(department.getDescription());
+        return dept;
+    }
 
+    public DepartmentDTO Convert(Department department){
+
+//        DepartmentDTO dept = new DepartmentDTO();
+//        dept.setId(department.getId());
+//        dept.setName(department.getName());
+//        System.out.println("Department Head Employee Information = "+department.getDepartment_head());
+//        System.out.println("Department Head ID = "+department.getDepartment_head().getId());
+//        dept.setDepartment_head_id(department.getDepartment_head().getId());
+//        dept.setLocation(department.getLocation());
+//        dept.setDescription(department.getDescription());
+
+        DepartmentDTO dept = modelMapper.map(department, DepartmentDTO.class);
+        return dept;
+
+    }
+
+//    public List<DepartmentDTO> Convert(List<Department> departments){
+//        List<DepartmentDTO> department_list = new ArrayList<>();
+//
+//        for (Department department : departments) {
+//            DepartmentDTO departmentDTO = Convert(department);
+//            department_list.add(departmentDTO);
+//        }
+//
+//        return department_list;
+//    }
+
+
+
+// endregion Department
 
 
 //endregion Employee Converter
@@ -120,6 +165,37 @@ public class Converter {
     }
 
 //endregion Token Converter
+
+
+    public static <SOURCE_TYPE, TARGET_TYPE> List<TARGET_TYPE> Convert(List<SOURCE_TYPE> sourceList, Class<TARGET_TYPE> targetClass) {
+        List<TARGET_TYPE> targetList = new ArrayList<>();
+
+        for (SOURCE_TYPE sourceObject : sourceList) {
+            TARGET_TYPE targetObject = Convert(sourceObject, targetClass);
+            targetList.add(targetObject);
+        }
+
+        return targetList;
+    }
+
+    public static <SOURCE_TYPE, TARGET_TYPE> TARGET_TYPE Convert(SOURCE_TYPE sourceObject, Class<TARGET_TYPE> targetClass) {
+        // Implement the conversion logic here
+        // You may use libraries like ModelMapper or manually map fields
+
+        // For a simple example, let's assume a simple direct mapping
+        try {
+            TARGET_TYPE targetObject = targetClass.getDeclaredConstructor().newInstance();
+            // Perform mapping logic here
+            // For direct field mapping, you might use reflection or setters/getters
+
+            return targetObject;
+        } catch (Exception e) {
+            throw new RuntimeException("Conversion failed: " + e.getMessage());
+        }
+    }
+
+
+
 
 
 }
