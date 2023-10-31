@@ -4,6 +4,7 @@ import com.hr_management_system_backend.dto.PerformanceReviewDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@RestController
 public class PerformanceController {
 
     // region Performance

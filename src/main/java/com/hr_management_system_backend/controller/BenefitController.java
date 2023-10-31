@@ -4,6 +4,7 @@ import com.hr_management_system_backend.dto.BenefitDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@RestController
 public class BenefitController {
 
     // region Benefit

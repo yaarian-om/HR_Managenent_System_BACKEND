@@ -64,7 +64,9 @@ public class UserCommonController {
     @PostMapping("forget_password/verify_pin")
     public ResponseEntity<Object> Verify_Pin(@RequestHeader("Authorization") String header, @RequestBody String pin){
 
-//
+//        Send to the Service where first grab the email from the JWT, then find the pin against him.
+//        If the pin got matched, then return a message "ok". Else return not matched.
+//        Also change or update the pin in the database so that any-other password changes can not be done through it
 
         return null;
     }

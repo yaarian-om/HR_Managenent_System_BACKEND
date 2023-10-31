@@ -5,6 +5,7 @@ import com.hr_management_system_backend.service.EmployeeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@RestController
 public class EmployeeController {
 
     private final EmployeeService employeeService;

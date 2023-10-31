@@ -30,120 +30,6 @@ public class Converter {
     }
 
 
-    //region Employee Converter
-    public EmployeeDTO Convert(Employee employee){
-
-        System.out.println("Employee Caught = "+employee);
-        System.out.println("Employee ID Caught = "+employee.getId());
-        EmployeeDTO emp = new EmployeeDTO();
-        emp.setId(employee.getId());
-        emp.setName(employee.getName());
-        emp.setDate_of_birth(employee.getDate_of_birth());
-        emp.setAddress(employee.getAddress());
-        emp.setEmail(employee.getEmail());
-        emp.setPassword(employee.getPassword());
-        emp.setPhone(employee.getPhone());
-        emp.setDepartment_id(employee.getDepartment().getId());
-        System.out.println("Manager  = "+employee.getManager());
-        System.out.println("Manager ID  = "+employee.getManager().getId());
-        emp.setManager_id(employee.getManager().getId());
-        emp.setType(employee.getType().name().toString());
-        emp.setId(employee.getId());
-
-        return emp;
-    }
-
-    public Employee Convert(EmployeeDTO employee){
-
-        System.out.println("Caught EMP at the starting of Converter "+employee);
-        Employee emp = new Employee();
-        emp.setId(employee.getId());
-        emp.setName(employee.getName());
-        emp.setDate_of_birth(employee.getDate_of_birth());
-        emp.setAddress(employee.getAddress());
-        emp.setEmail(employee.getEmail());
-        emp.setPassword(employee.getPassword());
-        emp.setPhone(employee.getPhone());
-        System.out.println("Employee Caught in Converter line 57 = "+employee.getId());
-        System.out.println("Employee Department ID Caught in Converter line 58 = "+employee.getDepartment_id());
-        Department tempDept = departmentRepo.findDepartmentById(employee.getDepartment_id());
-        System.out.println("Collected Dept info = "+tempDept);
-        emp.setDepartment(tempDept);
-        Employee tempManager = employeeRepo.findEmployeeById(employee.getManager_id());
-        System.out.println("Collected Manager info = "+tempManager);
-        emp.setManager(tempManager);
-//        employee.setType(("HR".equals(employee.getType())) ? String.valueOf(Employee.EmployeeType.HR) : String.valueOf(Employee.EmployeeType.Employee));
-        emp.setType(Employee.EmployeeType.valueOf(employee.getType()));
-        emp.setImage(employee.getImage());
-        emp.setActive_status(employee.getActive_status());
-
-
-        return emp;
-    }
-
-    public List<EmployeeDTO> Convert(List<Employee>  employees){
-//        List<EmployeeDTO> employee_list =  employees.stream()
-//                .map(this::Convert)
-//                .collect(Collectors.toList());
-
-        List<EmployeeDTO> employee_list = new ArrayList<>();
-
-        for (Employee employee : employees) {
-            EmployeeDTO employeeDTO = Convert(employee,EmployeeDTO.class);
-            employee_list.add(employeeDTO);
-        }
-
-
-        return employee_list;
-    }
-
-
-// region Department
-    public Department Convert(DepartmentDTO department){
-        Department dept = new Department();
-        dept.setId(department.getId());
-        dept.setName(department.getName());
-        Employee tempDepartmentHead = employeeRepo.findEmployeeById(department.getDepartment_head_id());
-        System.out.println("Collected Department Head info = "+tempDepartmentHead);
-        dept.setDepartment_head(tempDepartmentHead);
-        dept.setLocation(department.getLocation());
-        dept.setDescription(department.getDescription());
-        return dept;
-    }
-
-    public DepartmentDTO Convert(Department department){
-
-//        DepartmentDTO dept = new DepartmentDTO();
-//        dept.setId(department.getId());
-//        dept.setName(department.getName());
-//        System.out.println("Department Head Employee Information = "+department.getDepartment_head());
-//        System.out.println("Department Head ID = "+department.getDepartment_head().getId());
-//        dept.setDepartment_head_id(department.getDepartment_head().getId());
-//        dept.setLocation(department.getLocation());
-//        dept.setDescription(department.getDescription());
-
-        DepartmentDTO dept = modelMapper.map(department, DepartmentDTO.class);
-        return dept;
-
-    }
-
-//    public List<DepartmentDTO> Convert(List<Department> departments){
-//        List<DepartmentDTO> department_list = new ArrayList<>();
-//
-//        for (Department department : departments) {
-//            DepartmentDTO departmentDTO = Convert(department);
-//            department_list.add(departmentDTO);
-//        }
-//
-//        return department_list;
-//    }
-
-
-
-// endregion Department
-
-
-//endregion Employee Converter
 
 //region Token Converter
     public static TokenDTO Convert(Token token){
@@ -179,19 +65,8 @@ public class Converter {
     }
 
     public static <SOURCE_TYPE, TARGET_TYPE> TARGET_TYPE Convert(SOURCE_TYPE sourceObject, Class<TARGET_TYPE> targetClass) {
-        // Implement the conversion logic here
-        // You may use libraries like ModelMapper or manually map fields
-
-        // For a simple example, let's assume a simple direct mapping
-        try {
-            TARGET_TYPE targetObject = targetClass.getDeclaredConstructor().newInstance();
-            // Perform mapping logic here
-            // For direct field mapping, you might use reflection or setters/getters
-
-            return targetObject;
-        } catch (Exception e) {
-            throw new RuntimeException("Conversion failed: " + e.getMessage());
-        }
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(sourceObject, targetClass);
     }
 
 

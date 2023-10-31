@@ -78,7 +78,7 @@ public class SecurityConfig {
         http.csrf(csrf->csrf.disable())
                 .cors(cors->cors.disable())
                 .authorizeHttpRequests(auth->auth.requestMatchers("/home/**").authenticated()
-                        .requestMatchers("/", "/images/**", "/hr/login","/hr/alive", "/hr/abcd").permitAll().anyRequest()
+                        .requestMatchers("/", "/images/**", "/login","/hr/alive", "/hr/abcd").permitAll().anyRequest()
                         .authenticated())
                 .exceptionHandling(ex->ex.authenticationEntryPoint(point))
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
