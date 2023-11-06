@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class EmployeeDetailsDTO {
 
     private Long id;
-    private int pending_leaves_requests;
+    private int pending_leave_request_count;
     private int current_month_absent_count;
     private double salary;
 

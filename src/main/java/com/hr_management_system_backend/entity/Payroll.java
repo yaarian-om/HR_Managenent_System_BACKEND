@@ -19,10 +19,10 @@ public class Payroll {
 //    @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private double salary;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private double bonus;
 
     @Column(nullable = false)

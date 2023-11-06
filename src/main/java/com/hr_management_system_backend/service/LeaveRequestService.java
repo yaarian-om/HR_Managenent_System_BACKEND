@@ -5,6 +5,7 @@ import com.hr_management_system_backend.dto.leave_request.LeaveRequestDetailsDTO
 import com.hr_management_system_backend.entity.Employee;
 import com.hr_management_system_backend.entity.LeaveRequest;
 import com.hr_management_system_backend.mapper.Converter;
+import com.hr_management_system_backend.repository.IEmployeeRepo;
 import com.hr_management_system_backend.repository.ILeaveRequestRepo;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +17,14 @@ import java.util.List;
 public class LeaveRequestService {
 
     private final ILeaveRequestRepo leaveRequestRepo;
-    private final EmployeeService employeeService;
+    private final IEmployeeRepo employeeRepo;
     private final HeaderService headerService;
 
 
 
-    public LeaveRequestService(ILeaveRequestRepo leaveRequestRepo, EmployeeService employeeService, HeaderService headerService) {
+    public LeaveRequestService(ILeaveRequestRepo leaveRequestRepo, IEmployeeRepo employeeRepo, HeaderService headerService) {
         this.leaveRequestRepo = leaveRequestRepo;
-        this.employeeService = employeeService;
+        this.employeeRepo = employeeRepo;
         this.headerService = headerService;
     }
 
@@ -44,7 +45,7 @@ public class LeaveRequestService {
 
 
     public List<LeaveRequestDTO> Get_All_Leave_Requests_By_Employee(Long id){
-        List<LeaveRequest> leaveRequestList = leaveRequestRepo.findLeaveRequestsByEmployee(employeeService.Get_Employee_By_Id(id));
+        List<LeaveRequest> leaveRequestList = leaveRequestRepo.findLeaveRequestsByEmployee(employeeRepo.findEmployeeById(id));
         List<LeaveRequestDTO> leaveRequestListDTO = Converter.Convert(leaveRequestList, LeaveRequestDTO.class);
         for (int i = 0; i < leaveRequestListDTO.size(); i++) {
             LeaveRequest leaveRequest = leaveRequestList.get(i);
@@ -72,6 +73,10 @@ public class LeaveRequestService {
         }else{
             return null;
         }
+    }
+
+    public int Get_Pending_Leave_Request_Count_By_Employee(Long id){
+        return Calculate_Pending_Leave_Request(leaveRequestRepo.findLeaveRequestsByEmployee(employeeRepo.findEmployeeById(id)));
     }
 
 
@@ -104,6 +109,19 @@ public class LeaveRequestService {
         } else {
             return years + " Years " + months + " Months " + days + " Days";
         }
+    }
+
+    private int Calculate_Pending_Leave_Request(List<LeaveRequest> leaveRequests){
+        int pendingCount = 0;
+
+        for (LeaveRequest leaveRequest : leaveRequests) {
+            // Check if the status is "Pending"
+            if ("Pending".equals(leaveRequest.getStatus())) {
+                pendingCount++;
+            }
+        }
+
+        return pendingCount;
     }
 
 
