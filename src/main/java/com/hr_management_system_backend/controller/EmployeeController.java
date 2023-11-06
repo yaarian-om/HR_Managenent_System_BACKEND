@@ -1,6 +1,6 @@
 package com.hr_management_system_backend.controller;
 
-import com.hr_management_system_backend.dto.EmployeeDTO;
+import com.hr_management_system_backend.dto.employee.EmployeeDTO;
 import com.hr_management_system_backend.service.EmployeeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,5 +56,23 @@ public class EmployeeController {
 
 
 //endregion Employees
+
+    @GetMapping("/get_hr_dashboard")
+    public ResponseEntity<Object> Show_HR_Dashboard(@RequestHeader("Authorization") String header){
+        return null;
+    }
+
+    @GetMapping("/get_employee_dashboard")
+    public ResponseEntity<Object> Show_Employee_Dashboard(@RequestHeader("Authorization") String header){
+        return null;
+    }
+
+    @GetMapping("/get_my_profile")
+    public ResponseEntity<Object> Show_My_Profile(@RequestHeader("Authorization") String header){
+        return null;
+    }
+
+
+
 
 }

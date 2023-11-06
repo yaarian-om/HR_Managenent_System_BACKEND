@@ -2,44 +2,77 @@ package com.hr_management_system_backend.service;
 
 
 import com.hr_management_system_backend.authentication.JwtHelper;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.MalformedJwtException;
+import com.hr_management_system_backend.entity.Employee;
+import com.hr_management_system_backend.repository.IEmployeeRepo;
+import org.springframework.stereotype.Service;
 
+@Service
 public class HeaderService {
 
 
     private final JwtHelper jwtHelper;
+    private final IEmployeeRepo employeeRepo;
 
-    public HeaderService(JwtHelper jwtHelper) {
+    public HeaderService(JwtHelper jwtHelper, IEmployeeRepo employeeRepo) {
         this.jwtHelper = jwtHelper;
+        this.employeeRepo = employeeRepo;
     }
 
 
-    public String Get_User_Email_by_Header(String header){
-        String token;
-        String email = null;
-        if (header != null && header.startsWith("Bearer")) {
+    public Long Get_User_Id_By_Request_Header(String requestHeader){
+        if (requestHeader != null && requestHeader.startsWith("Bearer")) {
             //looking good
-            token = header.substring(7);
+            String token = "";
+            String email;
+            token = requestHeader.substring(7);
             try {
                 System.out.println("Token Caught By Authentication Filter line 43 : "+token);
                 email = this.jwtHelper.getUsernameFromToken(token);
-            } catch (IllegalArgumentException e) {
-                System.out.println("Illegal Argument while fetching the username !!");
-                e.printStackTrace();
-            } catch (ExpiredJwtException e) {
-                System.out.println("Given jwt token is expired !!");
-                e.printStackTrace();
-            } catch (MalformedJwtException e) {
-                System.out.println("Some changed has done in token !! Invalid Token");
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
+                Employee emp = employeeRepo.findByEmail(email);
+                return emp.getId();
+            } catch (Exception ex){
+                System.out.println("Error found in TokenService.java = "+ex.getMessage());
+                return -1L;
             }
-        } else {
-            System.out.println("Invalid Header Value !! ");
         }
-        return email;
+        return -1L;
+    }
+
+    public Employee Get_User_By_Request_Header(String requestHeader){
+        if (requestHeader != null && requestHeader.startsWith("Bearer")) {
+            //looking good
+            String token = "";
+            String email;
+            token = requestHeader.substring(7);
+            try {
+                System.out.println("Token Caught By Authentication Filter line 43 : "+token);
+                email = this.jwtHelper.getUsernameFromToken(token);
+                Employee emp = employeeRepo.findByEmail(email);
+                return emp;
+            } catch (Exception ex){
+                System.out.println("Error found in TokenService.java = "+ex.getMessage());
+                return null;
+            }
+        }
+        return null;
+    }
+
+    public String Get_User_Email_By_Request_Header(String requestHeader){
+        if (requestHeader != null && requestHeader.startsWith("Bearer")) {
+            //looking good
+            String token = "";
+            String email;
+            token = requestHeader.substring(7);
+            try {
+                System.out.println("Token Caught By Authentication Filter line 43 : "+token);
+                email = this.jwtHelper.getUsernameFromToken(token);
+                return email;
+            } catch (Exception ex){
+                System.out.println("Error found in TokenService.java = "+ex.getMessage());
+                return null;
+            }
+        }
+        return null;
     }
 
 

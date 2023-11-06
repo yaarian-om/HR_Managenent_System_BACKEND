@@ -11,7 +11,7 @@ import java.time.LocalTime;
 @Entity
 @Getter
 @Setter
-@Table(name = "AttendanceDTO")
+@Table(name = "Attendance")
 public class Attendance {
 
 
@@ -24,13 +24,13 @@ public class Attendance {
     private Employee employee;
 
     @Column(nullable = false)
-    private LocalDate date;
+    private String date;
 
     @Column(nullable = false)
-    private LocalTime clock_in_time;
+    private String clock_in_time;
 
     @Column(nullable = true)
-    private LocalTime clock_out_time;
+    private String clock_out_time;
 
 
 }

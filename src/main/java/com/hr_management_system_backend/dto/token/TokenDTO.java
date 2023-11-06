@@ -1,4 +1,4 @@
-package com.hr_management_system_backend.dto;
+package com.hr_management_system_backend.dto.token;
 
 import lombok.Data;
 

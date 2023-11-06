@@ -1,12 +1,13 @@
 package com.hr_management_system_backend.controller;
 
+import com.hr_management_system_backend.JSON_Maker;
 import com.hr_management_system_backend.authentication.JwtHelper;
 import com.hr_management_system_backend.dto.login.LoginDTO;
 import com.hr_management_system_backend.service.EmployeeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Objects;
+import java.util.*;
 
 @RestController
 public class UserCommonController {
@@ -34,7 +35,7 @@ public class UserCommonController {
                 token = jwt.generateToken(login.getEmail());
                 System.out.println("Generated Token = "+token);
                 if(token != null){
-                    return ResponseEntity.ok().body("{\"token\": \"" + token + "\", \"type\": \"" + type + "\"}");
+                    return ResponseEntity.ok(JSON_Maker.create_Json_Object("token", token, "type", type));
                 }else{
                     return ResponseEntity.internalServerError().body("{\"error\": \"Problem in Generating Token\"}");
                 }

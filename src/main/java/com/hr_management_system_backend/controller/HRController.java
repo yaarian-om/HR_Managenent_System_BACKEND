@@ -1,7 +1,7 @@
 package com.hr_management_system_backend.controller;
 
 
-import com.hr_management_system_backend.dto.*;
+import com.hr_management_system_backend.dto.employee.EmployeeDTO;
 import com.hr_management_system_backend.service.EmployeeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

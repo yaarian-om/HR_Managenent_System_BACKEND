@@ -23,10 +23,10 @@ public class PerformanceReview {
     private Employee employee;
 
     @Column(nullable = false)
-    private LocalDate reviewDate;
+    private String reviewDate;
 
     @Column(nullable = true)
-    private int rating;
+    private double rating;
 
     @Column(nullable = true)
     private String comment;

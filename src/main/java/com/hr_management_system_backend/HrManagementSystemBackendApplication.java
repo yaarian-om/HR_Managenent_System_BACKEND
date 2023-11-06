@@ -8,6 +8,7 @@ public class HrManagementSystemBackendApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(HrManagementSystemBackendApplication.class, args);
+        Data_Insertion.Insert();
     }
 
 }

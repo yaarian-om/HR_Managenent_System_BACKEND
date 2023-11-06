@@ -21,18 +21,25 @@ public class LeaveRequest {
     @ManyToOne
 //    @JoinColumn(name = "employee_id",nullable = false)
     private Employee employee;
+//
+//    @ManyToOne
+////    @JoinColumn(name = "department_id",nullable = false)
+//    private Department department;
 
     @Column(nullable = false)
     private String leaveType;
 
     @Column(nullable = false)
-    private LocalDate startDate;
+    private String startDate;
 
     @Column(nullable = false)
-    private LocalDate endDate;
+    private String endDate;
 
     @Column(nullable = false)
     private String status;
+
+    @Column(nullable = true)
+    private String description;
 
 
 
