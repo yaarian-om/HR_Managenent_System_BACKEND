@@ -47,7 +47,7 @@ public class Data_Insertion {
 
 //        System.out.println("Insertion Called");
 //        Create_Department();
-        create_Employees();
+//        create_Employees();
 //        Create_Leave_Requests();
 //        Create_Performance();
 //        Create_Attendance();

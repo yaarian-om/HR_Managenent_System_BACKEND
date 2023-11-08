@@ -21,14 +21,17 @@ public class EmployeeService {
     private final PerformanceReviewService performanceReviewService;
     private final PayrollService payrollService;
 
+    private final HeaderService headerService;
+
     private final Converter converter;
 
-    public EmployeeService(IEmployeeRepo employeeRepo, LeaveRequestService leaveRequestService, AttendanceService attendanceService, PerformanceReviewService performanceReviewService, PayrollService payrollService, Converter converter) {
+    public EmployeeService(IEmployeeRepo employeeRepo, LeaveRequestService leaveRequestService, AttendanceService attendanceService, PerformanceReviewService performanceReviewService, PayrollService payrollService, HeaderService headerService, Converter converter) {
         this.employeeRepo = employeeRepo;
         this.leaveRequestService = leaveRequestService;
         this.attendanceService = attendanceService;
         this.performanceReviewService = performanceReviewService;
         this.payrollService = payrollService;
+        this.headerService = headerService;
         this.converter = converter;
     }
 
@@ -103,6 +106,20 @@ public class EmployeeService {
         var decision = employeeRepo.save(emp);
         return decision.getId() > 0;
     }
+
+    public boolean Upload_Image(String header,String image_name){
+        Employee emp = headerService.Get_User_By_Request_Header(header);
+        emp.setImage(image_name);
+        var decision = employeeRepo.save(emp);
+        return decision.getId() > 0;
+    }
+
+    public String Get_Profile_Image_Name(String header){
+        Employee emp = headerService.Get_User_By_Request_Header(header);
+        return emp.getImage();
+    }
+
+
 
 
 
